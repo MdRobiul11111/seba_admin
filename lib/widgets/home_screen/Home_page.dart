@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:seba_admin/widgets/Hot_line_Link_add_delete/Hot_line_Link_add_delete.dart';
+import 'package:seba_admin/widgets/hot_line_link_add_delete/hot_line_link_add_delete.dart';
 import 'package:seba_admin/widgets/Notice_Image_add_delete/Notice_image_add_delete.dart';
 import 'package:seba_admin/widgets/Thalassemia_list/Thalassemia_list.dart';
 import 'package:seba_admin/widgets/ambulance_list/ambulance_list.dart';
-import 'package:seba_admin/widgets/chat_list/Chat_list.dart';
-import 'package:seba_admin/widgets/donor_Page/Blood_Donor_list.dart';
+import 'package:seba_admin/widgets/chat_list/chat_list.dart';
+import 'package:seba_admin/widgets/donor_Page/blood_donor_list.dart';
 import 'package:seba_admin/widgets/promotion_image_add_Delete/promotion_image_add_delete.dart';
 import 'package:seba_admin/widgets/representative_list/representive_list.dart';
 

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:seba_admin/widgets/home_screen/Home_page.dart';
+import 'package:seba_admin/widgets/home_screen/home_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -12,8 +12,8 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   late BuildContext _context;
+  @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     Timer(Duration(seconds: 5), (() {

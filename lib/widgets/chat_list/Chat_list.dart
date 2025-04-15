@@ -15,7 +15,7 @@ class _ChatListState extends State<ChatList> {
       appBar: AppBar(
         backgroundColor: Color(0xff008000),
         automaticallyImplyLeading: false,
-        title: Container(
+        title: SizedBox(
           height: 80,
           width: double.infinity,
 

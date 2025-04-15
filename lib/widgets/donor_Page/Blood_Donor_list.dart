@@ -1,20 +1,25 @@
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:seba_admin/application/blood_doner_provider.dart';
+import 'package:seba_admin/domain/blood_doner/blood_doner_model.dart';
 
-class BloodDonorList extends StatefulWidget {
+class BloodDonorList extends HookConsumerWidget {
   const BloodDonorList({super.key});
 
   @override
-  State<BloodDonorList> createState() => _BloodDonorListState();
-}
-
-class _BloodDonorListState extends State<BloodDonorList> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final searchController = useTextEditingController();
+    final doners = ref.watch(bloodDonerListProvider);
+    final ValueNotifier<IList<BloodDonerModel>> list = useState(
+      const IListConst([]),
+    );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff008000),
         automaticallyImplyLeading: false,
-        title: Container(
+        title: SizedBox(
           height: 80,
           width: double.infinity,
 
@@ -50,278 +55,134 @@ class _BloodDonorListState extends State<BloodDonorList> {
           ),
         ),
       ),
-      body: ListView(
-        children: [
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 12, right: 12),
-              child: Column(
-                children: [
-                  SizedBox(height: 20),
-                  SizedBox(
-                    height: 50,
-                    width: 300,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        hintText: 'Search Your Phone Number',
-                        hintStyle: TextStyle(color: Colors.black),
-                        suffixIconColor: Colors.black,
-                        prefixIcon: Icon(Icons.search, size: 40),
+      body: SingleChildScrollView(
+        child: doners.maybeWhen(
+          data: (data) {
+            list.value =
+                data.where((element) {
+                  return element.phoneNumber.toString().toLowerCase().contains(
+                    searchController.text.toLowerCase(),
+                  );
+                }).toIList();
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 12, right: 12),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 20),
+                      SizedBox(
+                        height: 50,
+                        width: 300,
+                        child: TextFormField(
+                          controller: searchController,
+                          decoration: InputDecoration(
+                            border: const OutlineInputBorder(),
+                            hintText: 'Search Your Phone Number',
+                            hintStyle: TextStyle(color: Colors.black),
+                            suffixIconColor: Colors.black,
+                            prefixIcon: Icon(Icons.search, size: 40),
+                          ),
+                          onChanged: (value) {
+                            list.value =
+                                data.where((element) {
+                                  return element.phoneNumber
+                                      .toString()
+                                      .toLowerCase()
+                                      .contains(value.toLowerCase());
+                                }).toIList();
+                          },
+                        ),
                       ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Container(
-                    height: 30,
-                    width: 220,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Center(child: Text("Total Blood Donor :100")),
-                  ),
-                  SizedBox(height: 30),
-                  Container(
-                    height: 170,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey, width: 2),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Spacer(),
-                              Text(
-                                "Name: Md habib Khan",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Blood Group: Ab(-)",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Number: 01717272773",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Age:22 Years",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Local Address: Rajshahi",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              Spacer(),
-                            ],
-                          ),
+                      SizedBox(height: 20),
+                      Container(
+                        height: 30,
+                        width: 220,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(15),
                         ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  Container(
-                    height: 170,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey, width: 2),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Spacer(),
-                              Text(
-                                "Name: Md habib Khan",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Blood Group: Ab(-)",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Number: 01717272773",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Age:22 Years",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Local Address: Rajshahi",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              Spacer(),
-                            ],
-                          ),
+                        child: Center(
+                          child: Text("Total Blood Donor: ${data.length}"),
                         ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 30),
+                      ListView.separated(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          final doner = list.value[index];
+                          return Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey, width: 2),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      // Spacer(),
+                                      Text(
+                                        doner.name,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        "Blood Group: ${doner.bloodGroup}",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        "Number: ${doner.phoneNumber}",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        "Age:${doner.age} Years",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        "Local Address: ${doner.localAddress}",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return SizedBox(height: 15);
+                        },
+                        itemCount: list.value.length,
+                      ),
+                      SizedBox(height: 40),
+                    ],
                   ),
-                  SizedBox(height: 15),
-                  Container(
-                    height: 170,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey, width: 2),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Spacer(),
-                              Text(
-                                "Name: Md habib Khan",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Blood Group: Ab(-)",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Number: 01717272773",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Age:22 Years",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Local Address: Rajshahi",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              Spacer(),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  Container(
-                    height: 170,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey, width: 2),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Spacer(),
-                              Text(
-                                "Name: Md habib Khan",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Blood Group: Ab(-)",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Number: 01717272773",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Age:22 Years",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Local Address: Rajshahi",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              Spacer(),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  Container(
-                    height: 170,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey, width: 2),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Spacer(),
-                              Text(
-                                "Name: Md habib Khan",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Blood Group: Ab(-)",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Number: 01717272773",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Age:22 Years",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Local Address: Rajshahi",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              Spacer(),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 40),
-                ],
-              ),
-            ),
-          ),
-        ],
+                ),
+              ],
+            );
+          },
+
+          orElse: () => CircularProgressIndicator(),
+        ),
       ),
     );
   }

@@ -14,7 +14,7 @@ class _AmbulanceListState extends State<AmbulanceList> {
       appBar: AppBar(
         backgroundColor: Color(0xff008000),
         automaticallyImplyLeading: false,
-        title: Container(
+        title: SizedBox(
           height: 80,
           width: double.infinity,
 
@@ -52,253 +52,251 @@ class _AmbulanceListState extends State<AmbulanceList> {
       ),
       body: ListView(
         children: [
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 12, right: 12),
-              child: Column(
-                children: [
-                  SizedBox(height: 20),
-                  SizedBox(
-                    height: 50,
-                    width: 300,
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        hintText: 'Search Your Phone Number',
-                        hintStyle: TextStyle(color: Colors.black),
-                        suffixIconColor: Colors.black,
-                        prefixIcon: Icon(Icons.search, size: 40),
+          Padding(
+            padding: const EdgeInsets.only(left: 12, right: 12),
+            child: Column(
+              children: [
+                SizedBox(height: 20),
+                SizedBox(
+                  height: 50,
+                  width: 300,
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      hintText: 'Search Your Phone Number',
+                      hintStyle: TextStyle(color: Colors.black),
+                      suffixIconColor: Colors.black,
+                      prefixIcon: Icon(Icons.search, size: 40),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Container(
+                  height: 30,
+                  width: 220,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Center(child: Text("Total Blood Donor :100")),
+                ),
+                SizedBox(height: 30),
+                Container(
+                  height: 170,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey, width: 2),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Spacer(),
+                            Text(
+                              "Name:",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "Number:",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "Driving License Number",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "Local Address:",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+
+                            Spacer(),
+                          ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                  SizedBox(height: 20),
-                  Container(
-                    height: 30,
-                    width: 220,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Center(child: Text("Total Blood Donor :100")),
+                ),
+                SizedBox(height: 15),
+                Container(
+                  height: 170,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey, width: 2),
+                    borderRadius: BorderRadius.circular(15),
                   ),
-                  SizedBox(height: 30),
-                  Container(
-                    height: 170,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey, width: 2),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Spacer(),
-                              Text(
-                                "Name:",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Number:",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Driving License Number",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Local Address:",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Spacer(),
+                            Text(
+                              "Name:",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "Number:",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "Driving License Number",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "Local Address:",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
 
-                              Spacer(),
-                            ],
-                          ),
+                            Spacer(),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 15),
-                  Container(
-                    height: 170,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey, width: 2),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Spacer(),
-                              Text(
-                                "Name:",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Number:",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Driving License Number",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Local Address:",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
+                ),
+                SizedBox(height: 15),
+                Container(
+                  height: 170,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey, width: 2),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Spacer(),
+                            Text(
+                              "Name:",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "Number:",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "Driving License Number",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "Local Address:",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
 
-                              Spacer(),
-                            ],
-                          ),
+                            Spacer(),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 15),
-                  Container(
-                    height: 170,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey, width: 2),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Spacer(),
-                              Text(
-                                "Name:",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Number:",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Driving License Number",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Local Address:",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
+                ),
+                SizedBox(height: 15),
+                Container(
+                  height: 170,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey, width: 2),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Spacer(),
+                            Text(
+                              "Name:",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "Number:",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "Driving License Number",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "Local Address:",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
 
-                              Spacer(),
-                            ],
-                          ),
+                            Spacer(),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 15),
-                  Container(
-                    height: 170,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey, width: 2),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Spacer(),
-                              Text(
-                                "Name:",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Number:",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Driving License Number",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Local Address:",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
+                ),
+                SizedBox(height: 15),
+                Container(
+                  height: 170,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey, width: 2),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Spacer(),
+                            Text(
+                              "Name:",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "Number:",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "Driving License Number",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "Local Address:",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
 
-                              Spacer(),
-                            ],
-                          ),
+                            Spacer(),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 15),
-                  Container(
-                    height: 170,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey, width: 2),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Spacer(),
-                              Text(
-                                "Name:",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Number:",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Driving License Number",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Local Address:",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-
-                              Spacer(),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 40),
-                ],
-              ),
+                ),
+                SizedBox(height: 40),
+              ],
             ),
           ),
         ],
