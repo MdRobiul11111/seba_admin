@@ -112,60 +112,106 @@ class BloodDonorList extends HookConsumerWidget {
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           final doner = list.value[index];
-                          return Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey, width: 2),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      // Spacer(),
-                                      Text(
-                                        doner.name,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                          return Stack(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(12),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          // Spacer(),
+                                          Text(
+                                            doner.name,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(height: 10),
+                                          Text(
+                                            "Blood Group: ${doner.bloodGroup}",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(height: 10),
+                                          Text(
+                                            "Number: ${doner.phoneNumber}",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(height: 10),
+                                          Text(
+                                            "Age:${doner.age} Years",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(height: 10),
+                                          Text(
+                                            "Local Address: ${doner.localAddress}",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(height: 10),
-                                      Text(
-                                        "Blood Group: ${doner.bloodGroup}",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Positioned(
+                                right: 10,
+                                top: 10,
+                                child: InkWell(
+                                  onTap: () async {
+                                    final repo = await ref.read(
+                                      bloodDonerRepoProvider.future,
+                                    );
+                                    await repo.deleteBloodDoner(
+                                      "${data[index].phoneNumber}@gmail.com",
+                                    );
+                                    ref.invalidate(bloodDonerListProvider);
+                                    if (context.mounted) {
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(
+                                          content: Text('Promotion Deleted!'),
+                                          backgroundColor: Colors.red,
                                         ),
-                                      ),
-                                      SizedBox(height: 10),
-                                      Text(
-                                        "Number: ${doner.phoneNumber}",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      SizedBox(height: 10),
-                                      Text(
-                                        "Age:${doner.age} Years",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      SizedBox(height: 10),
-                                      Text(
-                                        "Local Address: ${doner.localAddress}",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
+                                      );
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 30,
+                                    width: 30,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(7),
+                                      border: Border.all(),
+                                    ),
+                                    child: Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           );
                         },
                         separatorBuilder: (context, index) {

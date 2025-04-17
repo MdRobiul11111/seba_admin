@@ -3,4 +3,5 @@ import 'package:seba_admin/domain/blood_doner/blood_doner_model.dart';
 
 abstract class IBloodDonerRepo {
   Future<IList<BloodDonerModel>> getBloodDoners();
+  Future<void> deleteBloodDoner(String id);
 }

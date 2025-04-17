@@ -22,4 +22,9 @@ class BloodDonerRepo extends IBloodDonerRepo {
       return IList<BloodDonerModel>([]);
     }
   }
+
+  @override
+  Future<void> deleteBloodDoner(String id) async {
+    await FirebaseFirestore.instance.collection('Donation').doc(id).delete();
+  }
 }
