@@ -26,12 +26,12 @@ class AmbulanceList extends HookConsumerWidget {
           child: Center(
             child: Row(
               children: [
-                SizedBox(
-                  height: 28,
-                  width: 33,
-                  child: Image.asset(
-                    'assets/right-align_10079895.png',
-                    fit: BoxFit.cover,
+                InkWell(
+                  onTap: () => Navigator.pop(context),
+                  child: SizedBox(
+                    height: 33,
+                    width: 33,
+                    child: Image.asset('assets/back.png', fit: BoxFit.cover),
                   ),
                 ),
                 SizedBox(width: 20),
@@ -108,51 +108,131 @@ class AmbulanceList extends HookConsumerWidget {
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       final ambulance = list.value[index];
-                      return Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey, width: 2),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(14),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Name: ${ambulance.name}",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    "Number: ${ambulance.phone}",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    "Driving License Number: ${ambulance.license}",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    "Local Address: ${ambulance.address}",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                      return Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey, width: 2),
+                              borderRadius: BorderRadius.circular(15),
                             ),
-                          ],
-                        ),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(14),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Name: ${ambulance.name}",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        "Number: ${ambulance.phone}",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        "Driving License Number: ${ambulance.license}",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        "Local Address: ${ambulance.address}",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ambulance.approved
+                                  ? SizedBox()
+                                  : InkWell(
+                                    onTap: () async {
+                                      final repo = await ref.read(
+                                        ambulanceRepoProvider.future,
+                                      );
+                                      await repo.approveAmbulance(
+                                        ambulance: ambulance,
+                                      );
+                                      ref.invalidate(ambulanceListProvider);
+                                      if (context.mounted) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text('Approved!'),
+                                            backgroundColor: Colors.green,
+                                          ),
+                                        );
+                                      }
+                                    },
+
+                                    child: Container(
+                                      height: 40,
+                                      width: 40,
+                                      decoration: BoxDecoration(
+                                        color: Color(0xff008000),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Icon(
+                                        Icons.check,
+                                        color: Colors.white,
+                                        size: 20,
+                                      ),
+                                    ),
+                                  ),
+                              InkWell(
+                                onTap: () async {
+                                  final repo = await ref.read(
+                                    ambulanceRepoProvider.future,
+                                  );
+                                  await repo.deleteAmbulance(
+                                    ambulanceId: ambulance.license,
+                                  );
+                                  ref.invalidate(ambulanceListProvider);
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text('Deleted!'),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       );
                     },
                     separatorBuilder: (context, index) => SizedBox(height: 15),
@@ -164,7 +244,7 @@ class AmbulanceList extends HookConsumerWidget {
               ),
             );
           },
-          orElse: () => CircularProgressIndicator(),
+          orElse: () => Center(child: CircularProgressIndicator()),
         ),
       ),
     );

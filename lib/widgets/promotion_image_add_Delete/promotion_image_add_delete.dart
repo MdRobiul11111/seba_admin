@@ -25,12 +25,12 @@ class PromotionImageAddDelete extends HookConsumerWidget {
           child: Center(
             child: Row(
               children: [
-                SizedBox(
-                  height: 28,
-                  width: 33,
-                  child: Image.asset(
-                    'assets/right-align_10079895.png',
-                    fit: BoxFit.cover,
+                InkWell(
+                  onTap: () => Navigator.pop(context),
+                  child: SizedBox(
+                    height: 33,
+                    width: 33,
+                    child: Image.asset('assets/back.png', fit: BoxFit.cover),
                   ),
                 ),
                 SizedBox(width: 20),

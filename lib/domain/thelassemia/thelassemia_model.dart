@@ -15,6 +15,7 @@ class ThelassemiaModel extends Equatable {
   final String representativeName;
   final String representativePhone;
   final String thana;
+  final bool approved;
   const ThelassemiaModel({
     required this.district,
     required this.division,
@@ -28,6 +29,7 @@ class ThelassemiaModel extends Equatable {
     required this.representativeName,
     required this.representativePhone,
     required this.thana,
+    required this.approved,
   });
 
   ThelassemiaModel copyWith({
@@ -43,6 +45,7 @@ class ThelassemiaModel extends Equatable {
     String? representativeName,
     String? representativePhone,
     String? thana,
+    bool? approved,
   }) {
     return ThelassemiaModel(
       district: district ?? this.district,
@@ -57,6 +60,7 @@ class ThelassemiaModel extends Equatable {
       representativeName: representativeName ?? this.representativeName,
       representativePhone: representativePhone ?? this.representativePhone,
       thana: thana ?? this.thana,
+      approved: approved ?? this.approved,
     );
   }
 
@@ -74,6 +78,7 @@ class ThelassemiaModel extends Equatable {
       'representativeName': representativeName,
       'representativePhone': representativePhone,
       'thana': thana,
+      'approved': approved,
     };
   }
 
@@ -91,6 +96,7 @@ class ThelassemiaModel extends Equatable {
       representativeName: map['representativeName'] ?? 'N/A',
       representativePhone: map['representativePhone'] ?? 'N/A',
       thana: map['thana'] ?? 'N/A',
+      approved: map['approved'] ?? false,
     );
   }
 
@@ -101,7 +107,7 @@ class ThelassemiaModel extends Equatable {
 
   @override
   String toString() {
-    return 'ThelassemiaModel(district: $district, division: $division, fatherName: $fatherName, localAddress: $localAddress, motherName: $motherName, name: $name, nid: $nid, phone: $phone, post: $post, representativeName: $representativeName, representativePhone: $representativePhone, thana: $thana)';
+    return 'ThelassemiaModel(district: $district, division: $division, fatherName: $fatherName, localAddress: $localAddress, motherName: $motherName, name: $name, nid: $nid, phone: $phone, post: $post, representativeName: $representativeName, representativePhone: $representativePhone, thana: $thana, approved: $approved)';
   }
 
   @override
@@ -119,6 +125,7 @@ class ThelassemiaModel extends Equatable {
       representativeName,
       representativePhone,
       thana,
+      approved,
     ];
   }
 }

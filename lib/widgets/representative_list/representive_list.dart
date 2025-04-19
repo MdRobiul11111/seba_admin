@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seba_admin/widgets/representative_list/representative_code_list.dart';
 
 class RepresentiveList extends StatefulWidget {
   const RepresentiveList({super.key});
@@ -11,6 +12,15 @@ class _RepresentiveListState extends State<RepresentiveList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xff008000),
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => RepresentativeCodeList()),
+          );
+        },
+        child: Icon(Icons.add, color: Colors.white),
+      ),
       appBar: AppBar(
         backgroundColor: Color(0xff008000),
         automaticallyImplyLeading: false,
@@ -21,12 +31,12 @@ class _RepresentiveListState extends State<RepresentiveList> {
           child: Center(
             child: Row(
               children: [
-                SizedBox(
-                  height: 28,
-                  width: 33,
-                  child: Image.asset(
-                    'assets/right-align_10079895.png',
-                    fit: BoxFit.cover,
+                InkWell(
+                  onTap: () => Navigator.pop(context),
+                  child: SizedBox(
+                    height: 33,
+                    width: 33,
+                    child: Image.asset('assets/back.png', fit: BoxFit.cover),
                   ),
                 ),
                 SizedBox(width: 20),
@@ -78,7 +88,7 @@ class _RepresentiveListState extends State<RepresentiveList> {
                     border: Border.all(color: Colors.grey),
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  child: Center(child: Text("Total Blood Donor :100")),
+                  child: Center(child: Text("Total representative:  100")),
                 ),
                 SizedBox(height: 30),
                 Container(

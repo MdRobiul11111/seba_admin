@@ -11,6 +11,7 @@ class AmbulanceModel extends Equatable {
   final String phone;
   final String thana;
   final String vehicle;
+  final bool approved;
   const AmbulanceModel({
     required this.address,
     required this.district,
@@ -20,6 +21,7 @@ class AmbulanceModel extends Equatable {
     required this.phone,
     required this.thana,
     required this.vehicle,
+    required this.approved,
   });
 
   AmbulanceModel copyWith({
@@ -31,6 +33,7 @@ class AmbulanceModel extends Equatable {
     String? phone,
     String? thana,
     String? vehicle,
+    bool? approved,
   }) {
     return AmbulanceModel(
       address: address ?? this.address,
@@ -41,6 +44,7 @@ class AmbulanceModel extends Equatable {
       phone: phone ?? this.phone,
       thana: thana ?? this.thana,
       vehicle: vehicle ?? this.vehicle,
+      approved: approved ?? this.approved,
     );
   }
 
@@ -54,6 +58,7 @@ class AmbulanceModel extends Equatable {
       'phone': phone,
       'thana': thana,
       'vehicle': vehicle,
+      'approved': approved,
     };
   }
 
@@ -67,6 +72,7 @@ class AmbulanceModel extends Equatable {
       phone: map['phone'] ?? '',
       thana: map['thana'] ?? '',
       vehicle: map['vehicle'] ?? '',
+      approved: map['approved'] ?? false,
     );
   }
 
@@ -77,11 +83,21 @@ class AmbulanceModel extends Equatable {
 
   @override
   String toString() {
-    return 'AmbulanceModel(address: $address, district: $district, division: $division, license: $license, name: $name, phone: $phone, thana: $thana, vehicle: $vehicle)';
+    return 'AmbulanceModel(address: $address, district: $district, division: $division, license: $license, name: $name, phone: $phone, thana: $thana, vehicle: $vehicle, approved: $approved)';
   }
 
   @override
   List<Object> get props {
-    return [address, district, division, license, name, phone, thana, vehicle];
+    return [
+      address,
+      district,
+      division,
+      license,
+      name,
+      phone,
+      thana,
+      vehicle,
+      approved,
+    ];
   }
 }
