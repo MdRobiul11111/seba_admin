@@ -4,10 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:seba_admin/domain/representive/i_representive_repo.dart';
 import 'package:seba_admin/domain/representive/representive_code_model.dart';
+import 'package:seba_admin/domain/representive/representive_model.dart';
 
 class RepresentiveRepo extends IRepresentiveRepo {
   final codeCollection = FirebaseFirestore.instance.collection(
     'representive_code',
+  );
+
+  final representiveCollection = FirebaseFirestore.instance.collection(
+    'Registration',
   );
 
   @override
@@ -69,6 +74,43 @@ class RepresentiveRepo extends IRepresentiveRepo {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Code Deleted!'), backgroundColor: Colors.red),
       );
+    }
+  }
+
+  @override
+  Future<void> deleteRepresentive({
+    required String id,
+    required BuildContext context,
+  }) async {
+    await representiveCollection.doc(id).delete();
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Representive Deleted!'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<IList<RepresentiveModel>> getRepresentiveList() async {
+    try {
+      final QuerySnapshot snapshot = await representiveCollection.get();
+      Logger().d(snapshot.docs.length);
+      final data =
+          snapshot.docs
+              .map((doc) {
+                final data = doc.data() as Map<String, dynamic>;
+                return RepresentiveModel.fromMap(data);
+              })
+              .toIList()
+              .reversed;
+
+      return data;
+    } catch (e) {
+      Logger().e(e.toString());
+      return IList<RepresentiveModel>([]);
     }
   }
 }
