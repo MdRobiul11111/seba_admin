@@ -16,6 +16,13 @@ class BloodDonorList extends HookConsumerWidget {
       const IListConst([]),
     );
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xff008000),
+        onPressed: () {
+          ref.invalidate(bloodDonerListProvider);
+        },
+        child: Icon(Icons.refresh, color: Colors.white),
+      ),
       appBar: AppBar(
         backgroundColor: Color(0xff008000),
         automaticallyImplyLeading: false,

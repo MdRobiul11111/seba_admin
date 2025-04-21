@@ -16,6 +16,13 @@ class ThalassemiaList extends HookConsumerWidget {
       const IListConst([]),
     );
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xff008000),
+        onPressed: () {
+          ref.invalidate(thelassemiaListProvider);
+        },
+        child: Icon(Icons.refresh, color: Colors.white),
+      ),
       appBar: AppBar(
         backgroundColor: Color(0xff008000),
         automaticallyImplyLeading: false,
@@ -112,58 +119,117 @@ class ThalassemiaList extends HookConsumerWidget {
                       final patient = list.value[index];
                       return Column(
                         children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey, width: 2),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(14),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        patient.name,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                          InkWell(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder:
+                                    (context) => AlertDialog(
+                                      title: Text("patient Details"),
+                                      content: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text("Name: ${patient.name}"),
+                                          SizedBox(height: 10),
+                                          Text("Phone: ${patient.phone}"),
+                                          SizedBox(height: 10),
+                                          Text("Father: ${patient.fatherName}"),
+                                          SizedBox(height: 10),
+                                          Text("Mother: ${patient.motherName}"),
+                                          SizedBox(height: 10),
+                                          Text("NID: ${patient.nid}"),
+                                          SizedBox(height: 10),
+                                          Text("Division: ${patient.division}"),
+                                          SizedBox(height: 10),
+                                          Text("District: ${patient.district}"),
+                                          SizedBox(height: 10),
+                                          Text("Thana: ${patient.thana}"),
+                                          SizedBox(height: 10),
+                                          Text(
+                                            "Local Address: ${patient.localAddress}",
+                                          ),
+                                          SizedBox(height: 10),
+                                          Text("Postal Code: ${patient.post}"),
+                                          SizedBox(height: 10),
+                                          Text(
+                                            "Re. Name: ${patient.representativeName}",
+                                          ),
+                                          SizedBox(height: 10),
+                                          Text(
+                                            "Re. Phone: ${patient.representativePhone}",
+                                          ),
+                                          SizedBox(height: 10),
+                                        ],
                                       ),
-                                      // SizedBox(height: 10),
-                                      // Text(
-                                      //   "Blood Group: ${patient.b}",
-                                      //   style: TextStyle(
-                                      //     fontWeight: FontWeight.bold,
-                                      //   ),
-                                      // ),
-                                      SizedBox(height: 10),
-                                      Text(
-                                        "Number: ${patient.phone}",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
+                                      actions: [
+                                        TextButton(
+                                          onPressed:
+                                              () => Navigator.pop(context),
+                                          child: Text("Close"),
                                         ),
-                                      ),
-                                      // SizedBox(height: 10),
-                                      // Text(
-                                      //   "Age:22 Years",
-                                      //   style: TextStyle(
-                                      //     fontWeight: FontWeight.bold,
-                                      //   ),
-                                      // ),
-                                      SizedBox(height: 10),
-                                      Text(
-                                        "Local Address: ${patient.localAddress}",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                      ],
+                                    ),
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 2,
                                 ),
-                              ],
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(14),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Name: ${patient.name}",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        // SizedBox(height: 10),
+                                        // Text(
+                                        //   "Blood Group: ${patient.b}",
+                                        //   style: TextStyle(
+                                        //     fontWeight: FontWeight.bold,
+                                        //   ),
+                                        // ),
+                                        SizedBox(height: 10),
+                                        Text(
+                                          "Number: ${patient.phone}",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        // SizedBox(height: 10),
+                                        // Text(
+                                        //   "Age:22 Years",
+                                        //   style: TextStyle(
+                                        //     fontWeight: FontWeight.bold,
+                                        //   ),
+                                        // ),
+                                        SizedBox(height: 10),
+                                        Text(
+                                          "Local Address: ${patient.localAddress}",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           SizedBox(height: 10),

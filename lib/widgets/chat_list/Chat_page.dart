@@ -1,15 +1,21 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:seba_admin/application/chat_provider.dart';
+import 'package:seba_admin/domain/chat/chat_model.dart';
 
-class ChatPage extends StatefulWidget {
-  const ChatPage({super.key});
+class ChatPage extends HookConsumerWidget {
+  final ChatModel chat;
+  const ChatPage({super.key, required this.chat});
 
   @override
-  State<ChatPage> createState() => _ChatPageState();
-}
-
-class _ChatPageState extends State<ChatPage> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final messageList = ref.watch(chatDetailsProvider(chat.senderId));
+    final messageController = useTextEditingController();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff008000),
@@ -21,12 +27,12 @@ class _ChatPageState extends State<ChatPage> {
           child: Center(
             child: Row(
               children: [
-                SizedBox(
-                  height: 28,
-                  width: 33,
-                  child: Image.asset(
-                    'assets/right-align_10079895.png',
-                    fit: BoxFit.cover,
+                InkWell(
+                  onTap: () => Navigator.pop(context),
+                  child: SizedBox(
+                    height: 33,
+                    width: 33,
+                    child: Image.asset('assets/back.png', fit: BoxFit.cover),
                   ),
                 ),
                 SizedBox(width: 20),
@@ -39,8 +45,7 @@ class _ChatPageState extends State<ChatPage> {
                   ),
                 ),
                 Spacer(),
-                // ignore: sized_box_for_whitespace
-                Container(
+                SizedBox(
                   height: 28,
                   width: 33,
                   child: Image.asset('assets/menu_10977681.png'),
@@ -49,6 +54,267 @@ class _ChatPageState extends State<ChatPage> {
             ),
           ),
         ),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: messageList.when(
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error:
+                  (error, stackTrace) => Center(
+                    child: Text(
+                      "Error loading messages: $error",
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ),
+              data: (data) {
+                return ListView.builder(
+                  reverse: true,
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    final message = data[index];
+                    final dateTime = message.timestamp!;
+                    final formattedTime =
+                        "${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour}:${dateTime.minute.toString().padLeft(2, '0')}";
+                    return Align(
+                      alignment:
+                          message.isAdmin
+                              ? Alignment.centerRight
+                              : Alignment.centerLeft,
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        margin: const EdgeInsets.symmetric(
+                          vertical: 5,
+                          horizontal: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color:
+                              message.isAdmin ? Colors.green : Colors.grey[300],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          crossAxisAlignment:
+                              message.isAdmin
+                                  ? CrossAxisAlignment.end
+                                  : CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            message.type == "image"
+                                ? Image.network(
+                                  message.content,
+                                  width: 200,
+                                  loadingBuilder: (
+                                    context,
+                                    child,
+                                    loadingProgress,
+                                  ) {
+                                    if (loadingProgress == null) return child;
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  },
+                                  errorBuilder:
+                                      (context, error, stackTrace) => Text(
+                                        "Unable to load image",
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                )
+                                : Text(
+                                  message.content,
+                                  style: TextStyle(
+                                    color:
+                                        message.isAdmin
+                                            ? Colors.white
+                                            : Colors.black,
+                                  ),
+                                ),
+                            SizedBox(height: 5),
+                            Text(
+                              formattedTime,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color:
+                                    message.isAdmin
+                                        ? Colors.white70
+                                        : Colors.black54,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.attach_file, color: Colors.grey),
+                  onPressed: () async {
+                    try {
+                      final XFile? image = await ImagePicker().pickImage(
+                        source: ImageSource.gallery,
+                      );
+
+                      if (image == null) return; // User canceled the picker
+
+                      // Show the image in a preview dialog with a send button
+                      if (context.mounted) {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return HookBuilder(
+                              builder: (context) {
+                                final loading = useState(false);
+                                return AlertDialog(
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Image.file(
+                                        File(image.path),
+                                        height: 300,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      const SizedBox(height: 20),
+                                      ElevatedButton(
+                                        onPressed: () async {
+                                          if (!loading.value) {
+                                            loading.value = true;
+                                            try {
+                                              String fileName =
+                                                  'chat_${DateTime.now().millisecondsSinceEpoch}.jpg';
+
+                                              final storageRef = FirebaseStorage
+                                                  .instance
+                                                  .ref()
+                                                  .child(
+                                                    'chat_images/${chat.senderId}/$fileName',
+                                                  );
+
+                                              await storageRef.putFile(
+                                                File(image.path),
+                                              );
+
+                                              String downloadURL =
+                                                  await storageRef
+                                                      .getDownloadURL();
+
+                                              final repo = await ref.read(
+                                                chatRepoProvider.future,
+                                              );
+                                              final messageId =
+                                                  '${DateTime.now().millisecondsSinceEpoch}_${1000 + (DateTime.now().microsecond % 9000)}';
+                                              final message = ChatModel(
+                                                senderId: chat.senderId,
+                                                content: downloadURL,
+                                                type: "image",
+                                                isAdmin: true,
+                                                timestamp: DateTime.now(),
+                                                messageId: messageId,
+                                                userName: chat.userName,
+                                                receiverId: chat.receiverId,
+                                              );
+
+                                              await repo.sendMessage(
+                                                message: message,
+                                              );
+
+                                              if (context.mounted) {
+                                                Navigator.of(context).pop();
+                                              }
+                                            } catch (e) {
+                                              if (context.mounted) {
+                                                Navigator.of(context).pop();
+
+                                                ScaffoldMessenger.of(
+                                                  context,
+                                                ).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                      "Error uploading image: $e",
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                            }
+                                            loading.value = false;
+                                          }
+                                        },
+                                        child:
+                                            loading.value
+                                                ? const CircularProgressIndicator()
+                                                : const Text('Send'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        );
+                      }
+                    } catch (e) {
+                      if (context.mounted) {
+                        Navigator.of(context).pop();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Error picking image: $e")),
+                        );
+                      }
+                    }
+                  },
+                ),
+                Expanded(
+                  child: TextField(
+                    controller: messageController,
+                    decoration: InputDecoration(
+                      hintText: "Type a message...",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 10,
+                      ),
+                    ),
+                    onChanged: (value) {
+                      (context as Element).markNeedsBuild();
+                    },
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.send, color: Colors.green),
+                  onPressed:
+                      messageController.text.isNotEmpty
+                          ? () async {
+                            final repo = await ref.read(
+                              chatRepoProvider.future,
+                            );
+                            final messageId =
+                                '${DateTime.now().millisecondsSinceEpoch}_${1000 + (DateTime.now().microsecond % 9000)}';
+                            final message = ChatModel(
+                              senderId: chat.senderId,
+                              content: messageController.text,
+                              type: "text",
+                              isAdmin: true,
+                              timestamp: DateTime.now(),
+                              messageId: messageId,
+                              userName: chat.userName,
+                              receiverId: chat.receiverId,
+                            );
+
+                            await repo.sendMessage(message: message);
+                            messageController.clear();
+                          }
+                          : null,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

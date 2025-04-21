@@ -16,6 +16,13 @@ class AmbulanceList extends HookConsumerWidget {
       const IListConst([]),
     );
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xff008000),
+        onPressed: () {
+          ref.invalidate(ambulanceListProvider);
+        },
+        child: Icon(Icons.refresh, color: Colors.white),
+      ),
       appBar: AppBar(
         backgroundColor: Color(0xff008000),
         automaticallyImplyLeading: false,
@@ -100,7 +107,9 @@ class AmbulanceList extends HookConsumerWidget {
                       border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    child: Center(child: Text("Total Blood Donor :100")),
+                    child: Center(
+                      child: Text("Total Ambulance :${data.length}"),
+                    ),
                   ),
                   SizedBox(height: 30),
                   ListView.separated(
@@ -110,51 +119,101 @@ class AmbulanceList extends HookConsumerWidget {
                       final ambulance = list.value[index];
                       return Column(
                         children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey, width: 2),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(14),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Name: ${ambulance.name}",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                          InkWell(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder:
+                                    (context) => AlertDialog(
+                                      title: Text("Ambulance Details"),
+                                      content: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text("Name: ${ambulance.name}"),
+                                          SizedBox(height: 10),
+                                          Text("Phone: ${ambulance.phone}"),
+                                          SizedBox(height: 10),
+                                          Text("License: ${ambulance.license}"),
+                                          SizedBox(height: 10),
+                                          Text("Vehical: ${ambulance.vehicle}"),
+                                          SizedBox(height: 10),
+                                          Text(
+                                            "Division: ${ambulance.division}",
+                                          ),
+                                          SizedBox(height: 10),
+                                          Text(
+                                            "District: ${ambulance.district}",
+                                          ),
+                                          SizedBox(height: 10),
+                                          Text("Thana: ${ambulance.thana}"),
+                                          SizedBox(height: 10),
+                                          Text(
+                                            "Local Address: ${ambulance.address}",
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(height: 10),
-                                      Text(
-                                        "Number: ${ambulance.phone}",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
+                                      actions: [
+                                        TextButton(
+                                          onPressed:
+                                              () => Navigator.pop(context),
+                                          child: Text("Close"),
                                         ),
-                                      ),
-                                      SizedBox(height: 10),
-                                      Text(
-                                        "Driving License Number: ${ambulance.license}",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      SizedBox(height: 10),
-                                      Text(
-                                        "Local Address: ${ambulance.address}",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                      ],
+                                    ),
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 2,
                                 ),
-                              ],
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(14),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Name: ${ambulance.name}",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                        Text(
+                                          "Number: ${ambulance.phone}",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                        Text(
+                                          "Driving License Number: ${ambulance.license}",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                        Text(
+                                          "Local Address: ${ambulance.address}",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           SizedBox(height: 10),

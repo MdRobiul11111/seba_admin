@@ -119,7 +119,6 @@ class _HomePageState extends State<HomePage> {
                         },
                         child: Column(
                           children: [
-                            Spacer(),
                             SizedBox(
                               height: 75,
                               width: 71,
@@ -127,10 +126,10 @@ class _HomePageState extends State<HomePage> {
                                 'assets/Thalassemia Patient List.png',
                               ),
                             ),
-                            SizedBox(height: 10),
+                            SizedBox(height: 5),
                             Text("Thalassemia"),
-                            Text("Patient List"),
-                            Spacer(),
+                            Text("Patient List &"),
+                            Text("verification"),
                           ],
                         ),
                       ),
@@ -345,7 +344,8 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             SizedBox(height: 10),
-                            Text("Ambulance List"),
+                            Text("ambulance list &"),
+                            Text("verification"),
                             Spacer(),
                           ],
                         ),
