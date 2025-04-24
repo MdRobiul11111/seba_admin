@@ -71,8 +71,14 @@ class HotLineLinkAddDelete extends HookConsumerWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              "Web Site link: ${hotline.websiteLink.isNotEmpty ? hotline.websiteLink : ".............................................."}",
+                            Container(
+                              constraints: BoxConstraints(
+                                maxWidth:
+                                    MediaQuery.of(context).size.width * .8,
+                              ),
+                              child: Text(
+                                "Web Site link: ${hotline.websiteLink.isNotEmpty ? hotline.websiteLink : ".............................................."}",
+                              ),
                             ),
                             InkWell(
                               onTap: () {
@@ -222,8 +228,15 @@ class HotLineLinkAddDelete extends HookConsumerWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              "Facebook link: ${hotline.facebookLink.isNotEmpty ? hotline.facebookLink : ".............................................."}",
+                            Container(
+                              constraints: BoxConstraints(
+                                maxWidth:
+                                    MediaQuery.of(context).size.width * .8,
+                              ),
+                              child: Text(
+                                "Facebook link: ${hotline.facebookLink.isNotEmpty ? hotline.facebookLink : ".............................................."}",
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                             InkWell(
                               onTap: () {
@@ -373,8 +386,14 @@ class HotLineLinkAddDelete extends HookConsumerWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              "Youtube link: ${hotline.youtubeLink.isNotEmpty ? hotline.youtubeLink : ".............................................."}",
+                            Container(
+                              constraints: BoxConstraints(
+                                maxWidth:
+                                    MediaQuery.of(context).size.width * .8,
+                              ),
+                              child: Text(
+                                "Youtube link: ${hotline.youtubeLink.isNotEmpty ? hotline.youtubeLink : ".............................................."}",
+                              ),
                             ),
                             InkWell(
                               onTap: () {
@@ -524,8 +543,14 @@ class HotLineLinkAddDelete extends HookConsumerWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              "Instagram link: ${hotline.instagramLink.isNotEmpty ? hotline.instagramLink : ".............................................."}",
+                            Container(
+                              constraints: BoxConstraints(
+                                maxWidth:
+                                    MediaQuery.of(context).size.width * .8,
+                              ),
+                              child: Text(
+                                "Instagram link: ${hotline.instagramLink.isNotEmpty ? hotline.instagramLink : ".............................................."}",
+                              ),
                             ),
                             InkWell(
                               onTap: () {
@@ -675,8 +700,14 @@ class HotLineLinkAddDelete extends HookConsumerWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              "Twitter link: ${hotline.twitterLink.isNotEmpty ? hotline.twitterLink : ".............................................."}",
+                            Container(
+                              constraints: BoxConstraints(
+                                maxWidth:
+                                    MediaQuery.of(context).size.width * .8,
+                              ),
+                              child: Text(
+                                "Twitter link: ${hotline.twitterLink.isNotEmpty ? hotline.twitterLink : ".............................................."}",
+                              ),
                             ),
                             InkWell(
                               onTap: () {
@@ -826,8 +857,14 @@ class HotLineLinkAddDelete extends HookConsumerWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              "Phone Number: ${hotline.phoneNumber.isNotEmpty ? hotline.phoneNumber : ".............................................."}",
+                            Container(
+                              constraints: BoxConstraints(
+                                maxWidth:
+                                    MediaQuery.of(context).size.width * .8,
+                              ),
+                              child: Text(
+                                "Phone Number: ${hotline.phoneNumber.isNotEmpty ? hotline.phoneNumber : ".............................................."}",
+                              ),
                             ),
                             InkWell(
                               onTap: () {
@@ -980,8 +1017,14 @@ class HotLineLinkAddDelete extends HookConsumerWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              "Location: ${hotline.location.isNotEmpty ? hotline.location : ".............................................."}",
+                            Container(
+                              constraints: BoxConstraints(
+                                maxWidth:
+                                    MediaQuery.of(context).size.width * .8,
+                              ),
+                              child: Text(
+                                "Location: ${hotline.location.isNotEmpty ? hotline.location : ".............................................."}",
+                              ),
                             ),
                             InkWell(
                               onTap: () {

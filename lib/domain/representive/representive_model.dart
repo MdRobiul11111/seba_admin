@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class RepresentiveModel extends Equatable {
+  final String id;
   final Timestamp createdAt;
   final String district;
   final String division;
@@ -27,6 +28,7 @@ class RepresentiveModel extends Equatable {
     required this.phoneNumber,
     required this.post,
     required this.thana,
+    required this.id,
   });
 
   RepresentiveModel copyWith({
@@ -41,6 +43,7 @@ class RepresentiveModel extends Equatable {
     String? phoneNumber,
     String? post,
     String? thana,
+    String? id,
   }) {
     return RepresentiveModel(
       createdAt: createdAt ?? this.createdAt,
@@ -55,6 +58,7 @@ class RepresentiveModel extends Equatable {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       post: post ?? this.post,
       thana: thana ?? this.thana,
+      id: id ?? this.id,
     );
   }
 
@@ -92,6 +96,7 @@ class RepresentiveModel extends Equatable {
       phoneNumber: map['phoneNumber'] ?? '',
       post: map['post'] ?? '',
       thana: map['thana'] ?? '',
+      id: map['id'] ?? '',
     );
   }
 
@@ -119,6 +124,7 @@ class RepresentiveModel extends Equatable {
       phoneNumber,
       post,
       thana,
+      id,
     ];
   }
 }

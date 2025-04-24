@@ -219,10 +219,19 @@ class ThalassemiaList extends HookConsumerWidget {
                                         //   ),
                                         // ),
                                         SizedBox(height: 10),
-                                        Text(
-                                          "Local Address: ${patient.localAddress}",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
+                                        Container(
+                                          constraints: BoxConstraints(
+                                            maxWidth:
+                                                MediaQuery.of(
+                                                  context,
+                                                ).size.width *
+                                                .8,
+                                          ),
+                                          child: Text(
+                                            "Local Address: ${patient.localAddress}",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
                                         ),
                                       ],

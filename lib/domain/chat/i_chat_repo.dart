@@ -5,4 +5,6 @@ abstract class IChatRepo {
   Future<void> sendMessage({required ChatModel message});
   Stream<IList<ChatModel>> getUserList();
   Stream<IList<ChatModel>> getUserDetailsChat({required String userId});
+  Future<void> markAsRead({required ChatModel message});
+  Future<void> deleteChat({required String userId});
 }

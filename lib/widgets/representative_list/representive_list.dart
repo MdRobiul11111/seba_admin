@@ -118,52 +118,155 @@ class RepresentiveList extends HookConsumerWidget {
                   ListView.separated(
                     itemBuilder: (context, index) {
                       final user = list.value[index];
-                      return Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey, width: 2),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(14),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                      return Stack(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder:
+                                    (context) => AlertDialog(
+                                      title: Text("patient Details"),
+                                      content: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text("Name: ${user.name}"),
+                                          SizedBox(height: 10),
+                                          Text("Phone: ${user.phoneNumber}"),
+                                          SizedBox(height: 10),
+                                          Text("Father: ${user.fatherName}"),
+                                          SizedBox(height: 10),
+                                          Text("Mother: ${user.motherName}"),
+                                          SizedBox(height: 10),
+                                          Text(
+                                            "NID: ${user.nidOrBirthCertificate}",
+                                          ),
+                                          SizedBox(height: 10),
+                                          Text("Division: ${user.division}"),
+                                          SizedBox(height: 10),
+                                          Text("District: ${user.district}"),
+                                          SizedBox(height: 10),
+                                          Text("Thana: ${user.thana}"),
+                                          SizedBox(height: 10),
+                                          Text(
+                                            "Local Address: ${user.localAddress}",
+                                          ),
+                                          SizedBox(height: 10),
+                                          Text("Postal Code: ${user.post}"),
+                                          SizedBox(height: 10),
+                                        ],
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed:
+                                              () => Navigator.pop(context),
+                                          child: Text("Close"),
+                                        ),
+                                      ],
+                                    ),
+                              );
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Row(
                                 children: [
-                                  Text(
-                                    "Name: ${user.name}",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    "Nid/Birth Cirteficate: ${user.nidOrBirthCertificate}",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    "Number: ${user.phoneNumber}",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    "Local Address: ${user.localAddress}",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
+                                  Padding(
+                                    padding: const EdgeInsets.all(14),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Name: ${user.name}",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                        Text(
+                                          "Nid/Birth Cirteficate: ${user.nidOrBirthCertificate}",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                        Text(
+                                          "Number: ${user.phoneNumber}",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                        Container(
+                                          constraints: BoxConstraints(
+                                            maxWidth:
+                                                MediaQuery.of(
+                                                  context,
+                                                ).size.width *
+                                                .8,
+                                          ),
+                                          child: Text(
+                                            "Local Address: ${user.localAddress}",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                          Positioned(
+                            right: 10,
+                            top: 10,
+                            child: InkWell(
+                              onTap: () async {
+                                final repo = await ref.read(
+                                  representiveRepoProvider.future,
+                                );
+                                if (context.mounted) {
+                                  await repo.deleteRepresentive(
+                                    context: context,
+                                    id: user.id,
+                                  );
+                                }
+                                ref.invalidate(representiveListProvider);
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Promotion Deleted!'),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Container(
+                                height: 30,
+                                width: 30,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(7),
+                                  border: Border.all(),
+                                ),
+                                child: Icon(Icons.delete, color: Colors.red),
+                              ),
+                            ),
+                          ),
+                        ],
                       );
                     },
                     separatorBuilder: (context, index) => SizedBox(height: 15),

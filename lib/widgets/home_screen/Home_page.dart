@@ -7,6 +7,7 @@ import 'package:seba_admin/widgets/chat_list/chat_list.dart';
 import 'package:seba_admin/widgets/donor_Page/blood_donor_list.dart';
 import 'package:seba_admin/widgets/promotion_image_add_Delete/promotion_image_add_delete.dart';
 import 'package:seba_admin/widgets/representative_list/representive_list.dart';
+import 'package:seba_admin/widgets/users/user_list.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -112,6 +113,40 @@ class _HomePageState extends State<HomePage> {
                         onTap: () {
                           Navigator.push(
                             context,
+                            MaterialPageRoute(builder: (context) => UserList()),
+                          );
+                        },
+                        child: Column(
+                          children: [
+                            Spacer(),
+                            SizedBox(
+                              height: 75,
+                              width: 71,
+                              child: Image.asset('assets/user_home.png'),
+                            ),
+                            SizedBox(height: 10),
+                            Text("Total User"),
+                            Spacer(),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 15),
+                Row(
+                  children: [
+                    Container(
+                      height: 147,
+                      width: 140,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: Colors.grey),
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
                             MaterialPageRoute(
                               builder: (context) => ThalassemiaList(),
                             ),
@@ -134,11 +169,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                  ],
-                ),
-                SizedBox(height: 15),
-                Row(
-                  children: [
+                    Spacer(),
                     Container(
                       height: 147,
                       width: 140,
@@ -173,7 +204,11 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                    Spacer(),
+                  ],
+                ),
+                SizedBox(height: 15),
+                Row(
+                  children: [
                     Container(
                       height: 147,
                       width: 140,
@@ -208,11 +243,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                  ],
-                ),
-                SizedBox(height: 15),
-                Row(
-                  children: [
+                    Spacer(),
                     Container(
                       height: 147,
                       width: 140,
@@ -247,7 +278,11 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                    Spacer(),
+                  ],
+                ),
+                SizedBox(height: 15),
+                Row(
+                  children: [
                     Container(
                       height: 147,
                       width: 140,
@@ -280,11 +315,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                  ],
-                ),
-                SizedBox(height: 15),
-                Row(
-                  children: [
+                    Spacer(),
                     Container(
                       height: 147,
                       width: 140,
@@ -316,7 +347,11 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                    Spacer(),
+                  ],
+                ),
+                SizedBox(height: 15),
+                Row(
+                  children: [
                     Container(
                       height: 147,
                       width: 140,

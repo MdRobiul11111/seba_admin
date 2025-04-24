@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:seba_admin/application/chat_provider.dart';
 import 'package:seba_admin/domain/chat/chat_model.dart';
@@ -16,6 +19,7 @@ class ChatPage extends HookConsumerWidget {
   Widget build(BuildContext context, ref) {
     final messageList = ref.watch(chatDetailsProvider(chat.senderId));
     final messageController = useTextEditingController();
+    final isDownloading = useState(false);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff008000),
@@ -37,7 +41,7 @@ class ChatPage extends HookConsumerWidget {
                 ),
                 SizedBox(width: 20),
                 Text(
-                  "Chat",
+                  chat.userName,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -100,24 +104,107 @@ class ChatPage extends HookConsumerWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             message.type == "image"
-                                ? Image.network(
-                                  message.content,
-                                  width: 200,
-                                  loadingBuilder: (
-                                    context,
-                                    child,
-                                    loadingProgress,
-                                  ) {
-                                    if (loadingProgress == null) return child;
-                                    return Center(
-                                      child: CircularProgressIndicator(),
-                                    );
-                                  },
-                                  errorBuilder:
-                                      (context, error, stackTrace) => Text(
-                                        "Unable to load image",
-                                        style: TextStyle(color: Colors.red),
+                                ? Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    if (!message.isAdmin)
+                                      InkWell(
+                                        onTap: () async {
+                                          isDownloading.value = true;
+                                          var response = await Dio().get(
+                                            message.content,
+                                            options: Options(
+                                              responseType: ResponseType.bytes,
+                                            ),
+                                          );
+                                          await ImageGallerySaverPlus.saveImage(
+                                            Uint8List.fromList(response.data),
+                                            quality: 60,
+                                            name: "hello",
+                                          );
+                                          isDownloading.value = false;
+
+                                          if (context.mounted) {
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'Image Downloaded successfully!',
+                                                ),
+                                                backgroundColor: Color(
+                                                  0xff008000,
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                        },
+                                        child:
+                                            isDownloading.value
+                                                ? CircularProgressIndicator()
+                                                : Icon(
+                                                  Icons.download,
+                                                  color: Colors.white,
+                                                ),
                                       ),
+                                    if (!message.isAdmin) SizedBox(width: 10),
+                                    Image.network(
+                                      message.content,
+                                      width: 200,
+                                      loadingBuilder: (
+                                        context,
+                                        child,
+                                        loadingProgress,
+                                      ) {
+                                        if (loadingProgress == null) {
+                                          return child;
+                                        }
+                                        return Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      },
+                                      errorBuilder:
+                                          (context, error, stackTrace) => Text(
+                                            "Unable to load image",
+                                            style: TextStyle(color: Colors.red),
+                                          ),
+                                    ),
+                                    if (message.isAdmin) SizedBox(width: 10),
+                                    if (message.isAdmin)
+                                      InkWell(
+                                        onTap: () async {
+                                          var response = await Dio().get(
+                                            message.content,
+                                            options: Options(
+                                              responseType: ResponseType.bytes,
+                                            ),
+                                          );
+                                          await ImageGallerySaverPlus.saveImage(
+                                            Uint8List.fromList(response.data),
+                                            quality: 60,
+                                            name: "hello",
+                                          );
+                                          if (context.mounted) {
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'Image Downloaded successfully!',
+                                                ),
+                                                backgroundColor: Color(
+                                                  0xff008000,
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                        },
+                                        child: Icon(
+                                          Icons.download,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                  ],
                                 )
                                 : Text(
                                   message.content,
@@ -217,6 +304,7 @@ class ChatPage extends HookConsumerWidget {
                                                 messageId: messageId,
                                                 userName: chat.userName,
                                                 receiverId: chat.receiverId,
+                                                isRead: true,
                                               );
 
                                               await repo.sendMessage(
@@ -304,6 +392,7 @@ class ChatPage extends HookConsumerWidget {
                               messageId: messageId,
                               userName: chat.userName,
                               receiverId: chat.receiverId,
+                              isRead: true,
                             );
 
                             await repo.sendMessage(message: message);

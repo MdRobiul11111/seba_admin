@@ -2,24 +2,22 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:seba_admin/application/blood_doner_provider.dart';
-import 'package:seba_admin/domain/blood_doner/blood_doner_model.dart';
+import 'package:seba_admin/application/user_provider.dart';
+import 'package:seba_admin/domain/user/user_model.dart';
 
-class BloodDonorList extends HookConsumerWidget {
-  const BloodDonorList({super.key});
+class UserList extends HookConsumerWidget {
+  const UserList({super.key});
 
   @override
   Widget build(BuildContext context, ref) {
     final searchController = useTextEditingController();
-    final doners = ref.watch(bloodDonerListProvider);
-    final ValueNotifier<IList<BloodDonerModel>> list = useState(
-      const IListConst([]),
-    );
+    final doners = ref.watch(userListProvider);
+    final ValueNotifier<IList<UserModel>> list = useState(const IListConst([]));
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xff008000),
         onPressed: () {
-          ref.invalidate(bloodDonerListProvider);
+          ref.invalidate(userListProvider);
         },
         child: Icon(Icons.refresh, color: Colors.white),
       ),
@@ -43,7 +41,7 @@ class BloodDonorList extends HookConsumerWidget {
                 ),
                 SizedBox(width: 20),
                 Text(
-                  "Blood Donor List",
+                  "All User List",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -110,7 +108,7 @@ class BloodDonorList extends HookConsumerWidget {
                           borderRadius: BorderRadius.circular(15),
                         ),
                         child: Center(
-                          child: Text("Total Blood Donor: ${data.length}"),
+                          child: Text("Total User: ${data.length}"),
                         ),
                       ),
                       SizedBox(height: 30),
@@ -118,7 +116,7 @@ class BloodDonorList extends HookConsumerWidget {
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          final doner = list.value[index];
+                          final user = list.value[index];
                           return Stack(
                             children: [
                               InkWell(
@@ -133,33 +131,33 @@ class BloodDonorList extends HookConsumerWidget {
                                                 CrossAxisAlignment.start,
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              Text("Name: ${doner.name}"),
+                                              Text("Name: ${user.name}"),
                                               SizedBox(height: 10),
                                               Text(
-                                                "Phone: ${doner.phoneNumber}",
+                                                "Phone: ${user.phoneNumber}",
                                               ),
                                               SizedBox(height: 10),
                                               Text(
-                                                "Blood Group: ${doner.bloodGroup}",
+                                                "Blood Group: ${user.bloodGroup}",
                                               ),
                                               SizedBox(height: 10),
                                               Text(
-                                                "Donation Complete: ${doner.donationComplete}",
+                                                "Donation Complete: ${user.donationComplete}",
                                               ),
                                               SizedBox(height: 10),
 
                                               Text(
-                                                "Division: ${doner.division}",
+                                                "Division: ${user.division}",
                                               ),
                                               SizedBox(height: 10),
                                               Text(
-                                                "District: ${doner.district}",
+                                                "District: ${user.district}",
                                               ),
                                               SizedBox(height: 10),
-                                              Text("Thana: ${doner.thana}"),
+                                              Text("Thana: ${user.upazila}"),
                                               SizedBox(height: 10),
                                               Text(
-                                                "Local Address: ${doner.localAddress}",
+                                                "Local Address: ${user.localAddress}",
                                               ),
                                               SizedBox(height: 10),
                                             ],
@@ -194,28 +192,28 @@ class BloodDonorList extends HookConsumerWidget {
                                           children: [
                                             // Spacer(),
                                             Text(
-                                              doner.name,
+                                              user.name,
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                             SizedBox(height: 10),
                                             Text(
-                                              "Blood Group: ${doner.bloodGroup}",
+                                              "Blood Group: ${user.bloodGroup}",
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                             SizedBox(height: 10),
                                             Text(
-                                              "Number: ${doner.phoneNumber}",
+                                              "Number: ${user.phoneNumber}",
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                             SizedBox(height: 10),
                                             Text(
-                                              "Age:${doner.age} Years",
+                                              "Age:${user.age} Years",
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -230,7 +228,7 @@ class BloodDonorList extends HookConsumerWidget {
                                                     .8,
                                               ),
                                               child: Text(
-                                                "Local Address: ${doner.localAddress}",
+                                                "Local Address: ${user.localAddress}",
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                 ),
@@ -243,44 +241,37 @@ class BloodDonorList extends HookConsumerWidget {
                                   ),
                                 ),
                               ),
-                              Positioned(
-                                right: 10,
-                                top: 10,
-                                child: InkWell(
-                                  onTap: () async {
-                                    final repo = await ref.read(
-                                      bloodDonerRepoProvider.future,
-                                    );
-                                    await repo.deleteBloodDoner(
-                                      "${data[index].phoneNumber}@gmail.com",
-                                    );
-                                    ref.invalidate(bloodDonerListProvider);
-                                    if (context.mounted) {
-                                      ScaffoldMessenger.of(
-                                        context,
-                                      ).showSnackBar(
-                                        SnackBar(
-                                          content: Text('Promotion Deleted!'),
-                                          backgroundColor: Colors.red,
-                                        ),
-                                      );
-                                    }
-                                  },
-                                  child: Container(
-                                    height: 30,
-                                    width: 30,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(7),
-                                      border: Border.all(),
-                                    ),
-                                    child: Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                              // Positioned(
+                              //   right: 10,
+                              //   top: 10,
+                              //   child: InkWell(
+                              //     onTap: () async {
+                              //       final repo = await ref.read(
+                              //         userRepoProvider.future,
+                              //       );
+                              //       if (context.mounted) {
+                              //         await repo.deleteUser(
+                              //           userId: user.uid,
+                              //           context: context,
+                              //         );
+                              //       }
+                              //       ref.invalidate(userListProvider);
+                              //     },
+                              //     child: Container(
+                              //       height: 30,
+                              //       width: 30,
+                              //       decoration: BoxDecoration(
+                              //         color: Colors.white,
+                              //         borderRadius: BorderRadius.circular(7),
+                              //         border: Border.all(),
+                              //       ),
+                              //       child: Icon(
+                              //         Icons.delete,
+                              //         color: Colors.red,
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           );
                         },
@@ -297,7 +288,7 @@ class BloodDonorList extends HookConsumerWidget {
             );
           },
 
-          orElse: () => CircularProgressIndicator(),
+          orElse: () => Center(child: CircularProgressIndicator()),
         ),
       ),
     );

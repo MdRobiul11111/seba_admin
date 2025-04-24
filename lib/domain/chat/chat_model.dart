@@ -12,6 +12,8 @@ class ChatModel extends Equatable {
   final DateTime? timestamp;
   final String type;
   final String userName;
+  final bool isRead;
+  final String? imageUrl;
   const ChatModel({
     required this.content,
     required this.isAdmin,
@@ -21,6 +23,8 @@ class ChatModel extends Equatable {
     this.timestamp,
     required this.type,
     required this.userName,
+    required this.isRead,
+    this.imageUrl,
   });
 
   ChatModel copyWith({
@@ -32,6 +36,8 @@ class ChatModel extends Equatable {
     DateTime? timestamp,
     String? type,
     String? userName,
+    bool? isRead,
+    String? imageUrl,
   }) {
     return ChatModel(
       content: content ?? this.content,
@@ -42,6 +48,8 @@ class ChatModel extends Equatable {
       timestamp: timestamp ?? this.timestamp,
       type: type ?? this.type,
       userName: userName ?? this.userName,
+      isRead: isRead ?? this.isRead,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
 
@@ -52,9 +60,10 @@ class ChatModel extends Equatable {
       'messageId': messageId,
       'receiverId': receiverId,
       'senderId': senderId,
-      'timestamp': FieldValue.serverTimestamp(),
+      'timestamp': Timestamp.fromDate(timestamp!),
       'type': type,
       'userName': userName,
+      'isRead': isRead,
     };
   }
 
@@ -71,6 +80,7 @@ class ChatModel extends Equatable {
               : DateTime.now(),
       type: map['type'] ?? '',
       userName: map['userName'] ?? '',
+      isRead: map['isRead'] ?? false,
     );
   }
 
@@ -81,7 +91,7 @@ class ChatModel extends Equatable {
 
   @override
   String toString() {
-    return 'ChatModel(content: $content, isAdmin: $isAdmin, messageId: $messageId, receiverId: $receiverId, senderId: $senderId, timestamp: $timestamp, type: $type, userName: $userName)';
+    return 'ChatModel(content: $content, isAdmin: $isAdmin, messageId: $messageId, receiverId: $receiverId, senderId: $senderId, timestamp: $timestamp, type: $type, userName: $userName, isRead: $isRead)';
   }
 
   @override
@@ -95,6 +105,8 @@ class ChatModel extends Equatable {
       timestamp,
       type,
       userName,
+      isRead,
+      imageUrl,
     ];
   }
 }

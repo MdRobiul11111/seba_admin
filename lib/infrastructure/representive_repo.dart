@@ -102,7 +102,9 @@ class RepresentiveRepo extends IRepresentiveRepo {
           snapshot.docs
               .map((doc) {
                 final data = doc.data() as Map<String, dynamic>;
-                return RepresentiveModel.fromMap(data);
+                final id = doc.id;
+                final rep = RepresentiveModel.fromMap(data);
+                return rep.copyWith(id: id);
               })
               .toIList()
               .reversed;
