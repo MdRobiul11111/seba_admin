@@ -16,18 +16,18 @@ class UserRepo extends IUserRepo {
     try {
       final snapshot = await userCollection.get();
       Logger().d(snapshot.docs.length);
-      final data =
-          snapshot.docs
-              .map((doc) {
-                final data = doc.data();
-                final id = doc.id;
-                final rep = UserModel.fromMap(data);
-                return rep.copyWith(uid: id);
-              })
-              .toIList()
-              .reversed;
+      final futures =
+          snapshot.docs.map((doc) async {
+            final data = doc.data();
+            final id = doc.id;
+            final passColl = await passCollection.doc(id).get();
+            final password = passColl.data()!['password'];
+            final rep = UserModel.fromMap(data);
+            return rep.copyWith(uid: id, password: password);
+          }).toList();
 
-      return data;
+      final resolvedData = await Future.wait(futures);
+      return resolvedData.toIList().reversed.toIList();
     } catch (e) {
       Logger().e(e.toString());
       return IList<UserModel>([]);

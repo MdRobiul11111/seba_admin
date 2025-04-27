@@ -234,6 +234,22 @@ class UserList extends HookConsumerWidget {
                                                 ),
                                               ),
                                             ),
+                                            SizedBox(height: 10),
+                                            Container(
+                                              constraints: BoxConstraints(
+                                                maxWidth:
+                                                    MediaQuery.of(
+                                                      context,
+                                                    ).size.width *
+                                                    .8,
+                                              ),
+                                              child: Text(
+                                                "Password: ${user.password}",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),

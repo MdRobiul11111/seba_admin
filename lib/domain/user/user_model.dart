@@ -16,6 +16,7 @@ class UserModel extends Equatable {
   final String phoneNumber;
   final String profileImage;
   final String upazila;
+  final String? password;
   const UserModel({
     required this.uid,
     required this.age,
@@ -30,6 +31,7 @@ class UserModel extends Equatable {
     required this.phoneNumber,
     required this.profileImage,
     required this.upazila,
+    this.password,
   });
 
   UserModel copyWith({
@@ -46,6 +48,7 @@ class UserModel extends Equatable {
     String? phoneNumber,
     String? profileImage,
     String? upazila,
+    String? password,
   }) {
     return UserModel(
       uid: uid ?? this.uid,
@@ -61,6 +64,7 @@ class UserModel extends Equatable {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       profileImage: profileImage ?? this.profileImage,
       upazila: upazila ?? this.upazila,
+      password: password ?? this.password,
     );
   }
 
@@ -97,6 +101,7 @@ class UserModel extends Equatable {
       phoneNumber: map['phoneNumber'] ?? '',
       profileImage: map['profileImage'] ?? '',
       upazila: map['upazila'] ?? '',
+      password: map['password'] ?? '',
     );
   }
 
@@ -111,7 +116,7 @@ class UserModel extends Equatable {
   }
 
   @override
-  List<Object> get props {
+  List<Object?> get props {
     return [
       uid,
       age,
@@ -126,6 +131,7 @@ class UserModel extends Equatable {
       phoneNumber,
       profileImage,
       upazila,
+      password,
     ];
   }
 }
