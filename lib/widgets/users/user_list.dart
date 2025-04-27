@@ -125,7 +125,7 @@ class UserList extends HookConsumerWidget {
                                     context: context,
                                     builder:
                                         (context) => AlertDialog(
-                                          title: Text("Doner Details"),
+                                          title: Text("User Details"),
                                           content: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -158,6 +158,10 @@ class UserList extends HookConsumerWidget {
                                               SizedBox(height: 10),
                                               Text(
                                                 "Local Address: ${user.localAddress}",
+                                              ),
+                                              SizedBox(height: 10),
+                                              Text(
+                                                "Password: ${user.password}",
                                               ),
                                               SizedBox(height: 10),
                                             ],
@@ -229,22 +233,6 @@ class UserList extends HookConsumerWidget {
                                               ),
                                               child: Text(
                                                 "Local Address: ${user.localAddress}",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(height: 10),
-                                            Container(
-                                              constraints: BoxConstraints(
-                                                maxWidth:
-                                                    MediaQuery.of(
-                                                      context,
-                                                    ).size.width *
-                                                    .8,
-                                              ),
-                                              child: Text(
-                                                "Password: ${user.password}",
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                 ),
